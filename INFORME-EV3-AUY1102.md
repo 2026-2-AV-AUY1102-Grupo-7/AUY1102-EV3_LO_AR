@@ -144,13 +144,13 @@ FROM node:24.22.2-alpine3.24 AS runtime   # apk upgrade, npm ci --omit=dev, USER
 3. Construcción de la imagen final (`target: runtime`).
 4. Publicación en Docker Hub (job `publish`), solo si pasó la compuerta y el evento es *push* a `develop`.
 
-![Pruebas unitarias dentro del contenedor](docs/evidencias/ev3/albert/03-pruebas-en-contenedor.jpg)
+![Pruebas unitarias dentro del contenedor](docs/evidencias/ev3/albert/03-pruebas-en-contenedor.png)
 _Figura 1. `docker run` de la imagen `test`: 10 suites en PASS con cobertura, ejecutadas dentro del contenedor._
 
-![Pipeline en develop, exitoso](docs/evidencias/ev3/albert/02-pipeline-develop-ok.jpg)
+![Pipeline en develop, exitoso](docs/evidencias/ev3/albert/02-pipeline-develop-ok.png)
 _Figura 2. Ejecución del pipeline en `develop` tras el merge del PR #11: 8 jobs pasan y 1 se omite (`dependency-review`, que solo aplica a PRs) y `Publicar en Docker Hub` termina en 26 s._
 
-![Imagen publicada en Docker Hub](docs/evidencias/ev3/albert/05-docker-hub-imagen-publicada.jpg)
+![Imagen publicada en Docker Hub](docs/evidencias/ev3/albert/05-docker-hub-imagen-publicada.png)
 _Figura 3. Imagen `ayraserv/auy1102-ev3` publicada en Docker Hub con las etiquetas `latest` y el SHA del commit `bffb180…`._
 
 ### 4.2 Parte 2: Análisis de código y seguridad
@@ -160,7 +160,7 @@ _Figura 3. Imagen `ayraserv/auy1102-ev3` publicada en Docker Hub con las etiquet
 - Proyecto importado en la organización del grupo y con el *Automatic Analysis* **desactivado** para que el análisis lo haga el pipeline.
 - Job `sonarcloud.yml`: ejecuta Jest con cobertura `lcov`, lanza el análisis (`sonarqube-scan-action`) y verifica el *quality gate* (`sonarqube-quality-gate-action`).
 
-![SonarCloud: quality gate del PR #12](docs/evidencias/ev3/leonardo/01-sonarcloud-pr12-quality-gate.jpg)
+![SonarCloud: quality gate del PR #12](docs/evidencias/ev3/leonardo/01-sonarcloud-pr12-quality-gate.png)
 _Figura 4. PR #12 (`develop` → `main`): **Quality gate Passed**, 0 issues nuevos, cobertura 83,33 % en código nuevo (exigido ≥ 80 %), 0,0 % de duplicación._
 
 #### Snyk (Albert)
@@ -191,7 +191,7 @@ Además, en el repositorio se activaron *Dependabot alerts*, *Dependabot securit
 
 - Job `docker-scout`: construye la imagen final y ejecuta `docker/scout-action` con `command: cves`, `only-severities: critical` y `exit-code: true` (falla si hay CVE críticos). Se autentica con Docker Hub.
 
-![Docker Scout: 0 vulnerabilidades](docs/evidencias/ev3/albert/04-docker-scout-0-vulnerabilidades.jpg)
+![Docker Scout: 0 vulnerabilidades](docs/evidencias/ev3/albert/04-docker-scout-0-vulnerabilidades.png)
 _Figura 5. Docker Scout sobre `auy1102-ev3:scan`: **0C · 0H · 0M · 0L** en 191 paquetes (imagen de 66 MB)._
 
 ### 4.3 Compuerta de calidad y corte del despliegue
@@ -209,12 +209,12 @@ publish:
 
 La compuerta se comprobó **en la práctica**. En la primera ejecución en `develop` las pruebas fallaron dentro del contenedor, los análisis posteriores no se ejecutaron, el `Quality gate` falló y **`Publicar en Docker Hub` no corrió**:
 
-![Pipeline en develop: despliegue interrumpido](docs/evidencias/ev3/albert/01-pipeline-develop-falla-gate.jpg)
+![Pipeline en develop: despliegue interrumpido](docs/evidencias/ev3/albert/01-pipeline-develop-falla-gate.png)
 _Figura 6. Primera ejecución (PR #8 mergeado): `Build Docker y pruebas unitarias` falla → `Quality gate` falla → `Publicar en Docker Hub` queda omitido (despliegue interrumpido)._
 
 Las ejecuciones en PRs a `main` también se validan:
 
-![Checks del PR #12](docs/evidencias/ev3/albert/06-pr12-checks.jpg)
+![Checks del PR #12](docs/evidencias/ev3/albert/06-pr12-checks.png)
 _Figura 7. PR #12 (`develop` → `main`): los 19 checks del pipeline en PR y en push, todos en verde._
 
 ## 5. Trabajo colaborativo
