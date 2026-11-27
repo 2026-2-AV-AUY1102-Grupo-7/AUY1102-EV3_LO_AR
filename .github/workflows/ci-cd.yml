@@ -112,6 +112,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
+      packages: read
       pull-requests: read
 
   # 6. Compuerta de calidad: interrumpe el despliegue si algun analisis fallo
