@@ -18,6 +18,8 @@ RUN npm run build
 FROM node:24.22.2-alpine3.24 AS runtime
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
+# Parches de seguridad del sistema base (corrige CVE criticos de paquetes Alpine como zlib)
+RUN apk upgrade --no-cache
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 COPY --from=build /usr/src/app/dist ./dist

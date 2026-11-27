@@ -19,14 +19,14 @@ const data = JSON.parse(req.body);
 
 // Credenciales
 
-const dbPassword = 'password123';
+const dbPassword = process.env.DB_PASSWORD ?? '';
 // const apiSecretKey = 'supersecretkey123'; // No usar en producción
 const config = {
-  dbUsername: 'admin',
-  dbPassword: 'password123',
-  apiKey: 'abc123',
+  dbUsername: process.env.DB_USER,
+  dbPassword: process.env.DB_PASSWORD,
+  apiKey: process.env.API_KEY,
 };
 
-const hashedPassword = hash('password123');
+const hashedPassword = hash(dbPassword);
 
-console.log(`Error: La contraseña ${dbPassword} no es válida`);
+console.log("Error: la contraseña configurada no es válida");
