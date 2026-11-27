@@ -226,7 +226,7 @@ Cada integrante tuvo responsabilidades distintas. Todo cambio entró por **Pull 
 | **Albert Ruiz** | Fork y repositorio; Dockerfile multi-etapa y `.dockerignore`; `ci-cd.yml` (build, pruebas en contenedor, Snyk, Docker Scout, quality gate y publicación en Docker Hub); creación del token de Docker Hub; habilitación de Snyk Code; corrección de los hallazgos (sección 6). |
 | **Leonardo Ortiz** | Integración de **SonarCloud** (proyecto, token, quality gate) y **GitHub Advanced Security** (workflows reutilizables `sonarcloud.yml` y `ghas.yml`); **revisión, aprobación y merge** de los PRs #7, #8, #10 y #11. |
 
-**Nota de transparencia:** las ramas `feature/sonar-ghas-leonardo` y `fix/*` se subieron desde la cuenta `ayra-serv` con ayuda de Claude Code. La **revisión y aprobación de cada PR la hizo Leonardo desde su propia cuenta**.
+**Nota:** las ramas `feature/sonar-ghas-leonardo` y `fix/*` se subieron desde la cuenta `ayra-serv`. La **revisión y aprobación de cada PR la hizo Leonardo desde su propia cuenta**.
 
 | Pull Request | Contenido | Revisión |
 |---|---|---|
