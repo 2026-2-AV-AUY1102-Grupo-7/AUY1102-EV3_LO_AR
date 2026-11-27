@@ -9,8 +9,9 @@ describe('fetchData', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const errorSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await fetchData('');
+    const result = await fetchData('');
 
+    expect(result).toBeUndefined();
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(errorSpy).toHaveBeenCalledWith(
       'API_KEY no definida: se omite la consulta'
@@ -21,14 +22,13 @@ describe('fetchData', () => {
     const fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValue({
       json: async () => ({ ok: true }),
     } as Response);
-    const logSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    await fetchData('clave-de-prueba');
+    const result = await fetchData('clave-de-prueba');
 
     expect(fetchSpy).toHaveBeenCalledWith('https://api.example.com/data', {
       headers: { Authorization: 'Bearer clave-de-prueba' },
     });
-    expect(logSpy).toHaveBeenCalledWith({ ok: true });
+    expect(result).toEqual({ ok: true });
   });
 
   it('captura los errores de red sin lanzar excepcion', async () => {
@@ -37,6 +37,6 @@ describe('fetchData', () => {
 
     await expect(fetchData('clave-de-prueba')).resolves.toBeUndefined();
 
-    expect(errorSpy).toHaveBeenCalledWith('Error:', expect.any(Error));
+    expect(errorSpy).toHaveBeenCalledWith('Error al consultar la API');
   });
 });
