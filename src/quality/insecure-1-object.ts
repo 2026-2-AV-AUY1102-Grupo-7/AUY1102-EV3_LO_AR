@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const pug = require('pug');
 
 const app = express();
 
@@ -14,20 +13,10 @@ const sanitizeUsername = (value: unknown): string =>
     .replace(/[^\w .-]/g, '')
     .slice(0, 50);
 
-const template = pug.compile(`
-doctype
-html
-head
-    title= 'Hello world'
-body
-    form(action='/' method='post')
-        input#username.form-control(type='text' name='username' value=username)
-        button.btn.btn-primary(type='submit') Submit
-    p Hello #{username}`);
-
+// Se responde JSON (no HTML): la entrada del usuario nunca se interpreta como marcado
 app.post('/', (req, res) => {
   const username = sanitizeUsername(req.body.username);
-  res.type('html').send(template({ username }));
+  res.json({ message: `Hello ${username}` });
 });
 
 app.listen(3000, () => {
