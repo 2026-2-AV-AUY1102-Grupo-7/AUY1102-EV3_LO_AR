@@ -1,13 +1,22 @@
 export * from './value-object';
 
-const apiKey = "12345-abcde-67890-fghij";
-const githubToken = "ghp_1234567890abcdefghijklmnopqrstuvwx";
+// Las credenciales se leen del entorno (nunca van escritas en el codigo)
+const apiKey = process.env.API_KEY;
 
 function fetchData() {
-    fetch(`https://api.example.com/data?api_key=${apiKey}`)
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
+  if (!apiKey) {
+    console.error('API_KEY no definida: se omite la consulta');
+    return;
+  }
+  fetch('https://api.example.com/data', {
+    headers: { Authorization: `Bearer ${apiKey}` },
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error('Error:', error));
 }
 
-fetchData();
+// Solo se ejecuta al lanzar el archivo directamente, no al importarlo como libreria
+if (require.main === module) {
+  fetchData();
+}
