@@ -20,6 +20,8 @@ const jestConfig = {
   ],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  // @faker-js/faker v10 es solo ESM: se transforma con swc para que Jest (CommonJS) pueda cargarlo
+  transformIgnorePatterns: ['/node_modules/(?!@faker-js/faker)'],
 };
 
 module.exports = jestConfig;

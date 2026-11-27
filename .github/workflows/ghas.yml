@@ -1,0 +1,52 @@
+name: GitHub Advanced Security
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  # Analisis de dependencias: bloquea PRs que agregan dependencias con vulnerabilidades criticas
+  dependency-review:
+    permissions:
+      contents: read
+      pull-requests: read
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4
+        with:
+          fail-on-severity: critical
+
+  # Escaneo de secretos sobre el codigo y el historial
+  secret-scanning:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: trufflesecurity/trufflehog@4ef51f69ca6347aaa76a5e64a87eac9c0c909f71 # v3.100.1
+        with:
+          extra_args: --results=verified,unknown
+
+  # Analisis estatico con CodeQL (resultados en la pestana Security)
+  codeql:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+      packages: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: github/codeql-action/init@74c1aea9df7c0f02e9b7bfe4a8935abf2e5e3aa6 # v3
+        with:
+          languages: javascript-typescript
+          build-mode: none
+      - uses: github/codeql-action/analyze@74c1aea9df7c0f02e9b7bfe4a8935abf2e5e3aa6 # v3
+        with:
+          category: /language:javascript-typescript
