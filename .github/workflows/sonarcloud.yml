@@ -23,7 +23,9 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@2f77a1ec69fb1d595b06f35ab27e97605bdef703 # v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # El plan gratuito de SonarCloud solo permite consultar el gate de PRs y de main
       - name: Quality Gate de SonarCloud
+        if: github.event_name == 'pull_request'
         uses: SonarSource/sonarqube-quality-gate-action@7a5fffe8e523c40e0c740b6bc2712ab503e52efa # v1
         timeout-minutes: 5
         env:
