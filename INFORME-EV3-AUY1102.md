@@ -153,6 +153,9 @@ _Figura 2. Ejecución del pipeline en `develop` tras el merge del PR #11: 8 jobs
 ![Imagen publicada en Docker Hub](docs/evidencias/ev3/albert/05-docker-hub-imagen-publicada.png)
 _Figura 3. Imagen `ayraserv/auy1102-ev3` publicada en Docker Hub con las etiquetas `latest` y el SHA del commit `bffb180…`._
 
+![Secretos de GitHub Actions del repositorio](docs/evidencias/ev3/albert/07-secretos-actions.webp)
+_Figura 3b. Secretos del repositorio (*Settings → Secrets and variables → Actions*): `DOCKERHUB_TOKEN`, `DOCKERHUB_USERNAME`, `SNYK_TOKEN` y `SONAR_TOKEN`. Solo se ven los nombres; los valores no se muestran ni están en el código._
+
 ### 4.2 Parte 2: Análisis de código y seguridad
 
 #### SonarCloud (Leonardo)
@@ -186,6 +189,9 @@ Además, en el repositorio se activaron *Dependabot alerts*, *Dependabot securit
 | Alertas de *code scanning* (CodeQL) | **0** abiertas |
 | Alertas de *secret scanning* | **0** abiertas |
 | Alertas de Dependabot | 28 abiertas (10 *high*, 14 *medium*, 4 *low*); **27 son de dependencias de desarrollo** y 1 de runtime |
+
+![Code scanning de la rama develop sin alertas](docs/evidencias/ev3/albert/08-code-scanning-develop-0-alertas.webp)
+_Figura 4b. Pestaña *Security and quality → Code scanning* con el filtro `is:open branch:develop`: **0 alertas abiertas y 0 cerradas** tras los análisis de CodeQL._
 
 #### Docker Scout (Albert)
 
